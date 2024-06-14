@@ -2,6 +2,7 @@ const express = require("express");
 const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
 const mongoose = require("mongoose");
+const { isAuthenticated } = require("../middleware/jwt.middleware.js")
 const PORT = 5005;
 
 // STATIC DATA
@@ -144,6 +145,16 @@ app.delete("/api/students/:studentId", async (req, res) => {
     res.status(500).json(error);
   }
 });
+
+
+// auth routes setup
+
+// import of the route
+const userRouter = require('../routes/auth.routes.js')
+
+// config of the route
+app.use('/auth', userRouter)
+
 
 // START SERVER
 app.listen(PORT, () => {
